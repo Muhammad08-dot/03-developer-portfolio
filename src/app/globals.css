@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Developer Portfolio — base + component classes
+  Dark by default, light via .light class on html.
+*/
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-surface-dark font-body text-ink-inv antialiased;
+  }
+  .light body {
+    @apply bg-surface-light text-ink;
+  }
+  h1, h2, h3, h4 {
+    @apply font-heading;
+  }
+  ::selection {
+    @apply bg-lime text-ink;
+  }
+  :focus-visible {
+    outline: 2px solid #C6F24E;
+    outline-offset: 2px;
+  }
+
+  /* Theme-aware overrides: components use dark-first class names, .light swaps them */
+  .light .text-ink-inv { color: #1A1A1B; }
+  .light .text-ink-inv-light { color: #6B6B6E; }
+  .light .border-line-dark { border-color: #E5E5E4; }
+  .light .bg-surface-dark { background-color: #FDFCFA; }
+}
+
+@layer components {
+  .shell {
+    @apply mx-auto w-full max-w-shell px-5 sm:px-8;
+  }
+
+  .label {
+    @apply font-mono text-label uppercase;
+  }
+
+  .btn-accent {
+    @apply inline-flex items-center gap-2 rounded-card bg-lime px-5 py-2.5 text-sm font-semibold text-ink transition-colors duration-200 hover:bg-lime-dark;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 rounded-card border border-line-dark px-5 py-2.5 text-sm font-semibold text-ink-inv transition-colors duration-200 hover:border-lime hover:text-lime;
+  }
+
+  .light .btn-ghost {
+    @apply border-line-light text-ink hover:border-lime-dark hover:text-ink;
+  }
+
+  .tag {
+    @apply inline-flex items-center rounded-card bg-lime-subtle px-2.5 py-1 font-mono text-xs text-lime;
+  }
+
+  .light .tag {
+    @apply text-ink bg-lime/15;
+  }
+
+  .section-heading {
+    @apply text-h2x font-heading font-bold;
+  }
+
+  /* Skill bar animation */
+  .skill-bar {
+    @apply relative h-1.5 w-full overflow-hidden rounded-full bg-line-dark;
+  }
+  .light .skill-bar {
+    @apply bg-line-light;
+  }
+  .skill-bar-fill {
+    @apply absolute inset-y-0 left-0 rounded-full bg-lime transition-[width] duration-700 ease-out;
+  }
+}
+
+@layer utilities {
+  .reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .skill-bar-fill { transition: none; }
+  }
+}
